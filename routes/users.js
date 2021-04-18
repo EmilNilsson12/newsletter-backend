@@ -6,11 +6,67 @@ const bcrypt = require('bcrypt');
 var router = express.Router();
 
 router.use(cors());
+
+const navBar = `
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/books">View our selection!</a></li>
+      <li><a href="/my-books">View your collection!</a></li>
+      <li><a href="/donate">Donate a book!</a></li>
+    </ul>
+  </nav>`;
+
 /*-------------- Admin Routes --------------------*/
 
+// Login for admin
+router.post('/', function (req, res, next) {
+  const enteredPassword = req.body.password;
+
+  if (enteredPassword !== 'admin') {
+    return res.send('YOU ARE NOT ALLOWED IN HERE');
+  }
+  return res.redirect('/users');
+});
+
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+router.get('/', (req, res) => {
+  let adminHomePage = '<ul>';
+
+  fs.readFile('users.json', (err, data) => {
+    let users = JSON.parse(data);
+
+    // ONLY display info about user:
+    // - email
+    // - subscription-status
+    let usersWithInfo = users.map((user) => {
+      return (userInfo = {
+        Email: user.email,
+        'Subscription-status': user.subscribed,
+      });
+    });
+
+    // Create <li> for each user
+    for (const user of usersWithInfo) {
+      adminHomePage += '<li>';
+
+      // Display email and subscription-status for each user
+      for (const prop in user) {
+        adminHomePage += `
+          <div>
+            ${prop}: ${user[prop]}
+          </div>
+        `;
+      }
+      adminHomePage += '</li>';
+    }
+    adminHomePage += '</ul>';
+
+    adminHomePage += '<button id="logout">Log out as admin</button>';
+
+    console.log(adminHomePage);
+    res.send(adminHomePage);
+  });
 });
 
 /*-------------- Front End User Routes --------------------*/
