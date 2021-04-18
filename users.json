@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1618746069068",
+    "email": "emil@gmai.com",
+    "password": "$2b$10$xnIfwgmhsU3VVhVqAkZ5N.heFD4KDUOTgaZVmtlIVWSe22z5FcrYu",
+    "subscribed": true
+  },
+  {
+    "id": "1618746116641",
+    "email": "hello@fds.com",
+    "password": "$2b$10$7Boh/vQNjCUJ/k603lmyEeiYvJHbN/b2DP.QBccrKainPbmCnIZwi",
+    "subscribed": true
+  }
+]
