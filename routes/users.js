@@ -94,7 +94,7 @@ router.post('/register', makeSureEmailIsNotAlreadyRegistered, async (req, res) =
     id: Date.now().toString(),
     email: req.body.email,
     password: hashedPassword,
-    subscribed: false,
+    subscribed: req.body.subscribed,
   };
   fs.readFile('users.json', (err, data) => {
     if (err) console.error(err);

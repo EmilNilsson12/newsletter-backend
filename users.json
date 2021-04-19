@@ -10,5 +10,71 @@
     "email": "hello@fds.com",
     "password": "$2b$10$7Boh/vQNjCUJ/k603lmyEeiYvJHbN/b2DP.QBccrKainPbmCnIZwi",
     "subscribed": true
+  },
+  {
+    "id": "1618754419180",
+    "email": "emil@aaa",
+    "password": "$2b$10$o/lOWTtcYK/bCIgIuY27nutgmToRbXfpyqm/nAkO7jcWgAOxpH9BC",
+    "subscribed": false
+  },
+  {
+    "id": "1618833250335",
+    "email": "fds@f.com",
+    "password": "$2b$10$FjHnYg9KHTOVW327ptG4oOSHQk0Y.b5iL0h2C.md2CMIl1DfWiQQu",
+    "subscribed": false
+  },
+  {
+    "id": "1618833256480",
+    "email": "fdfs@f.com",
+    "password": "$2b$10$l6VCcyM3YjhDgqNlsXVXh.bLmHjQ2oISdeYACt0j0zxuQhqEQAvzC",
+    "subscribed": false
+  },
+  {
+    "id": "1618833379813",
+    "email": "fds@gfd.ccsd",
+    "password": "$2b$10$8pMwPAkqvIYr4aBmYcCzsu42cH8caWUsqdwAuewUV4MuaaGSC1lr6",
+    "subscribed": false
+  },
+  {
+    "id": "1618833388262",
+    "email": "fdfds@gfd.ccsd",
+    "password": "$2b$10$/zLFO5eRc0yJvMqhvkNNwe38hhkMCazp4q7bIGGm033v2yo/BEMya",
+    "subscribed": false
+  },
+  {
+    "id": "1618833403296",
+    "email": "sd@f.com",
+    "password": "$2b$10$6iF8H6iLCReHhhgzG9xpAOcRr5Dr9D2CQAyILzPdwRtt6PEW86wjO",
+    "subscribed": false
+  },
+  {
+    "id": "1618833417527",
+    "email": "fds@fds.com",
+    "password": "$2b$10$jREDLEVsuZE3z63treNafer5WVc3S/JA7dJ0X4/o0g8sZnw9Jp.p2",
+    "subscribed": false
+  },
+  {
+    "id": "1618833422352",
+    "email": "fdss@fds.com",
+    "password": "$2b$10$U7xspgrijvLsp/4X4Wf4kur1eYAPQCOPtPdjafaw0nABJYtDBkloC",
+    "subscribed": false
+  },
+  {
+    "id": "1618833524709",
+    "email": "emi@g.com",
+    "password": "$2b$10$iaOuq3xSTGwtd72lfLu19.tJuVsXfTKXua9snhfUhXYraxOJA6fC6",
+    "subscribed": false
+  },
+  {
+    "id": "1618833569079",
+    "email": "fsd@gf",
+    "password": "$2b$10$mt7n333hk.7UZBhLstwGFuKvjeyYYbFRHtTa8TpwJ8EjoZ6o4iDzK",
+    "subscribed": true
+  },
+  {
+    "id": "1618833572377",
+    "email": "fsfdsd@gf",
+    "password": "$2b$10$LrKbHaZ7k1pPN2QKom/RA.g7d4U4fvWKIRMuTDc62P1fVjXthh93O",
+    "subscribed": false
   }
 ]
