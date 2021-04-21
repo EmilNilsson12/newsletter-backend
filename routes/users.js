@@ -19,6 +19,7 @@ const navBar = `
   </nav>`;
 
 /*-------------- Admin Routes --------------------*/
+/*-------- Content is rendered serverside --------*/
 
 // Login for admin
 router.post('/', function (req, res, next) {
@@ -26,27 +27,89 @@ router.post('/', function (req, res, next) {
 
   if (enteredPassword !== 'admin') {
     return res.send('Wrong password');
+  } else {
+    let adminHomePage = `
+    <h1>Admin - Homepage</h1>
+    <div class="admin-filter">
+      <form action="/users/onlysubbed" method="post">
+        <input type="submit" value="Only show subscribed users">
+      </form>
+      <form action="/users" method="post">
+        <input type="submit" value="Show all users" disabled>
+        <input type="text" value="admin" name="password" style="display: none;">
+      </form>
+    </div>
+    <ul>
+    `;
+    fs.readFile('users.json', (err, data) => {
+      let users = JSON.parse(data);
+
+      // ONLY display info about user:
+      // - email
+      // - subscription-status
+      let usersWithInfo = users.map((user) => {
+        return (userInfo = {
+          Email: user.email,
+          Subscribed: user.subscribed,
+        });
+      });
+
+      // Create <li> for each user
+      for (const user of usersWithInfo) {
+        adminHomePage += '<li>';
+
+        // Display email and subscription-status for each user
+        for (const prop in user) {
+          adminHomePage += `
+          <div>
+          ${prop}: ${user[prop]}
+          </div>
+          `;
+        }
+        adminHomePage += '</li>';
+      }
+      adminHomePage += '</ul>';
+
+      adminHomePage += `
+        <form action="/" method="get" >
+          <input type="submit" value="Log out as admin">
+        </form>`;
+
+      res.send(adminHomePage);
+    });
   }
-  return res.redirect('/users');
 });
 
-/* GET users listing. */
-router.get('/', (req, res) => {
-  console.log(req.body);
-  let adminHomePage = '<ul>';
-
+router.post('/onlysubbed', function (req, res, next) {
+  let adminHomePage = `
+    <h1>Admin - Homepage</h1>
+    <div class="admin-filter">
+      <form action="/users/onlysubbed" method="post">
+        <input type="submit" value="Only show subscribed users" disabled>
+      </form>
+      <form action="/users" method="post">
+        <input type="submit" value="Show all users">
+        <input type="text" value="admin" name="password" style="display: none;">
+      </form>
+    </div>
+    <ul>
+    `;
   fs.readFile('users.json', (err, data) => {
     let users = JSON.parse(data);
 
     // ONLY display info about user:
     // - email
     // - subscription-status
-    let usersWithInfo = users.map((user) => {
-      return (userInfo = {
-        Email: user.email,
-        'Subscribed?': user.subscribed,
+    let usersWithInfo = users
+      .filter((user) => {
+        return user.subscribed == true;
+      })
+      .map((user) => {
+        return (userInfo = {
+          Email: user.email,
+          Subscribed: user.subscribed,
+        });
       });
-    });
 
     // Create <li> for each user
     for (const user of usersWithInfo) {
@@ -56,22 +119,25 @@ router.get('/', (req, res) => {
       for (const prop in user) {
         adminHomePage += `
           <div>
-            ${prop}: ${user[prop]}
+          ${prop}: ${user[prop]}
           </div>
-        `;
+          `;
       }
       adminHomePage += '</li>';
     }
     adminHomePage += '</ul>';
 
-    adminHomePage +=
-      '<form action="/" method="get" ><input type="submit" value="Log out as admin"></form>';
+    adminHomePage += `
+        <form action="/" method="get" >
+          <input type="submit" value="Log out as admin">
+        </form>`;
 
     res.send(adminHomePage);
   });
 });
 
 /*-------------- Front End User Routes --------------------*/
+/*-------- Content is rendered clientside --------*/
 
 // Lets a user log in
 // Uses middleware functions to check the following:
