@@ -2,6 +2,7 @@ var express = require('express');
 var cors = require('cors');
 var fs = require('fs');
 const bcrypt = require('bcrypt');
+let random = require('randomkey');
 
 var router = express.Router();
 
@@ -24,13 +25,14 @@ router.post('/', function (req, res, next) {
   const enteredPassword = req.body.password;
 
   if (enteredPassword !== 'admin') {
-    return res.send('YOU ARE NOT ALLOWED IN HERE');
+    return res.send('Wrong password');
   }
   return res.redirect('/users');
 });
 
 /* GET users listing. */
 router.get('/', (req, res) => {
+  console.log(req.body);
   let adminHomePage = '<ul>';
 
   fs.readFile('users.json', (err, data) => {
@@ -42,7 +44,7 @@ router.get('/', (req, res) => {
     let usersWithInfo = users.map((user) => {
       return (userInfo = {
         Email: user.email,
-        'Subscription-status': user.subscribed,
+        'Subscribed?': user.subscribed,
       });
     });
 
@@ -62,9 +64,9 @@ router.get('/', (req, res) => {
     }
     adminHomePage += '</ul>';
 
-    adminHomePage += '<button id="logout">Log out as admin</button>';
+    adminHomePage +=
+      '<form action="/" method="get" ><input type="submit" value="Log out as admin"></form>';
 
-    console.log(adminHomePage);
     res.send(adminHomePage);
   });
 });
@@ -91,11 +93,12 @@ router.post('/register', makeSureEmailIsNotAlreadyRegistered, async (req, res) =
   // Add user to the database
   const hashedPassword = await bcrypt.hash(req.body.password, 10);
   const newUser = {
-    id: Date.now().toString(),
+    id: random(8),
     email: req.body.email,
     password: hashedPassword,
     subscribed: req.body.subscribed,
   };
+  console.log(newUser);
   fs.readFile('users.json', (err, data) => {
     if (err) console.error(err);
 
