@@ -21,7 +21,19 @@ const navBar = `
 /*-------------- Admin Routes --------------------*/
 /*-------- Content is rendered serverside --------*/
 
+router.get('/', (req, res) => {
+  req.app.locals.db
+    .collection('Users')
+    .find()
+    .toArray()
+    .then((results) => {
+      console.log(results);
+    });
+  res.send('yo');
+});
+
 // Login for admin
+// Renders all users if pw is correct
 router.post('/', function (req, res, next) {
   const enteredPassword = req.body.password;
 
@@ -41,45 +53,57 @@ router.post('/', function (req, res, next) {
     </div>
     <ul>
     `;
-    fs.readFile('users.json', (err, data) => {
-      let users = JSON.parse(data);
+    req.app.locals.db
+      .collection('Users')
+      .find()
+      .toArray()
+      .then((users) => {
+        console.log(users);
 
-      // ONLY display info about user:
-      // - email
-      // - subscription-status
-      let usersWithInfo = users.map((user) => {
-        return (userInfo = {
-          Email: user.email,
-          Subscribed: user.subscribed,
+        /* fs.readFile('users.json', (err, data) => {
+          if (err) {
+            console.log(err);
+            return res.send('Error connecting to db');
+          }
+          let users = JSON.parse(data); */
+
+        // ONLY display info about user:
+        // - email
+        // - subscription-status
+        let usersWithInfo = users.map((user) => {
+          return (userInfo = {
+            Email: user.email,
+            Subscribed: user.subscribed,
+          });
         });
-      });
 
-      // Create <li> for each user
-      for (const user of usersWithInfo) {
-        adminHomePage += '<li>';
+        // Create <li> for each user
+        for (const user of usersWithInfo) {
+          adminHomePage += '<li>';
 
-        // Display email and subscription-status for each user
-        for (const prop in user) {
-          adminHomePage += `
-          <div>
-          ${prop}: ${user[prop]}
-          </div>
-          `;
+          // Display email and subscription-status for each user
+          for (const prop in user) {
+            adminHomePage += `
+              <div>
+              ${prop}: ${user[prop]}
+              </div>
+              `;
+          }
+          adminHomePage += '</li>';
         }
-        adminHomePage += '</li>';
-      }
-      adminHomePage += '</ul>';
+        adminHomePage += '</ul>';
 
-      adminHomePage += `
-        <form action="/" method="get" >
+        adminHomePage += `
+          <form action="/" method="get" >
           <input type="submit" value="Log out as admin">
-        </form>`;
+          </form>`;
 
-      res.send(adminHomePage);
-    });
+        return res.send(adminHomePage);
+      });
   }
 });
 
+// Renders only subscribed users
 router.post('/onlysubbed', function (req, res, next) {
   let adminHomePage = `
     <h1>Admin - Homepage</h1>
@@ -94,46 +118,48 @@ router.post('/onlysubbed', function (req, res, next) {
     </div>
     <ul>
     `;
-  fs.readFile('users.json', (err, data) => {
-    let users = JSON.parse(data);
-
-    // ONLY display info about user:
-    // - email
-    // - subscription-status
-    let usersWithInfo = users
-      .filter((user) => {
-        return user.subscribed == true;
-      })
-      .map((user) => {
-        return (userInfo = {
-          Email: user.email,
-          Subscribed: user.subscribed,
+  req.app.locals.db
+    .collection('Users')
+    .find()
+    .toArray()
+    .then((users) => {
+      // ONLY display info about user:
+      // - email
+      // - subscription-status
+      let usersWithInfo = users
+        .filter((user) => {
+          return user.subscribed == true;
+        })
+        .map((user) => {
+          return (userInfo = {
+            Email: user.email,
+            Subscribed: user.subscribed,
+          });
         });
-      });
 
-    // Create <li> for each user
-    for (const user of usersWithInfo) {
-      adminHomePage += '<li>';
+      // Create <li> for each user
+      for (const user of usersWithInfo) {
+        adminHomePage += '<li>';
 
-      // Display email and subscription-status for each user
-      for (const prop in user) {
-        adminHomePage += `
-          <div>
+        // Display email and subscription-status for each user
+        for (const prop in user) {
+          adminHomePage += `
+        <div>
           ${prop}: ${user[prop]}
           </div>
           `;
+        }
+        adminHomePage += '</li>';
       }
-      adminHomePage += '</li>';
-    }
-    adminHomePage += '</ul>';
+      adminHomePage += '</ul>';
 
-    adminHomePage += `
-        <form action="/" method="get" >
-          <input type="submit" value="Log out as admin">
-        </form>`;
+      adminHomePage += `
+      <form action="/" method="get" >
+      <input type="submit" value="Log out as admin">
+      </form>`;
 
-    res.send(adminHomePage);
-  });
+      res.send(adminHomePage);
+    });
 });
 
 /*-------------- Front End User Routes --------------------*/

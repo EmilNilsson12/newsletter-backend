@@ -8,6 +8,20 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+const MongoClient = require('mongodb').MongoClient;
+
+MongoClient.connect(
+  'mongodb+srv://EmilNilsson:myPassword@cluster0.g188f.mongodb.net/NewsletterApp?retryWrites=true&w=majority',
+  {
+    useUnifiedTopology: true,
+  }
+).then((client) => {
+  console.log('Vi är uppkopplade mot databasen!');
+
+  const db = client.db('NewsletterBackend');
+  app.locals.db = db;
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
