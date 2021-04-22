@@ -170,12 +170,14 @@ router.post('/onlysubbed', function (req, res, next) {
 // - Email is registered in database
 // - Entered password is correct
 router.post('/login', makeSureEmailExistsInDb, authenticatePassword, (req, res, next) => {
-  console.log(req.body);
-  fs.readFile('users.json', (err, data) => {
-    let users = JSON.parse(data);
-    const loggedInUser = users.find((user) => user.email == req.body.email);
-    res.json(loggedInUser);
-  });
+  req.app.locals.db
+    .collection('Users')
+    .find()
+    .toArray()
+    .then((users) => {
+      const loggedInUser = users.find((user) => user.email == req.body.email);
+      res.json(loggedInUser);
+    });
 });
 
 // Adds user to db
@@ -190,88 +192,84 @@ router.post('/register', makeSureEmailIsNotAlreadyRegistered, async (req, res) =
     password: hashedPassword,
     subscribed: req.body.subscribed,
   };
-  console.log(newUser);
-  fs.readFile('users.json', (err, data) => {
-    if (err) console.error(err);
 
-    let users = JSON.parse(data);
-    users.push(newUser);
+  req.app.locals.db
+    .collection('Users')
+    .insertOne(newUser)
+    .then(() => {
+      let returnData = {
+        message: 'Successfully registered',
+        id: newUser.id,
+        email: newUser.email,
+      };
 
-    fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
-      if (err) console.error(err);
+      return res.json(returnData);
     });
-  });
-
-  let returnData = {
-    message: 'Successfully registered',
-    id: newUser.id,
-    email: newUser.email,
-  };
-
-  return res.json(returnData);
 });
 
 // Allows a logged-in user to change their subscription-status
 // req.body contains userID and user subscription preference
 router.post('/settings', (req, res) => {
-  fs.readFile('users.json', (err, data) => {
-    if (err) console.error(err);
-
-    // Get list of users
-    let users = JSON.parse(data);
-
-    // Find currentuser using user ID
-    let currentUser = users.find((user) => user.id == req.body.id);
-
-    // Change subscription status for current user
-    currentUser.subscribed = req.body.subscribed;
-
-    // Replace users.json with updated settings for curretnuser
-    fs.writeFile('users.json', JSON.stringify(users, null, 2), (err) => {
-      if (err) console.error(err);
+  req.app.locals.db
+    .collection('Users')
+    .updateOne(
+      { id: req.body.id },
+      {
+        $set: { subscribed: req.body.subscribed },
+      }
+    )
+    .then((results) => {
       return res.json(req.body);
     });
-  });
 });
 
 // Middleware fuction
 function authenticatePassword(req, res, next) {
   let enteredEmail = req.body.email;
 
-  fs.readFile('users.json', async (err, data) => {
-    if (err) console.error(err);
-
-    let users = JSON.parse(data);
-    let existingUser = users.find((acc) => acc.email == enteredEmail);
-
-    if (await bcrypt.compare(req.body.password, existingUser.password)) return next();
-    return res.json('Wrong password!');
-  });
+  req.app.locals.db
+    .collection('Users')
+    .find()
+    .toArray()
+    .then(async (users) => {
+      let existingUser = users.find((acc) => acc.email == enteredEmail);
+      if (await bcrypt.compare(req.body.password, existingUser.password)) {
+        return next();
+      } else {
+        return res.json('Wrong password!');
+      }
+    });
 }
 
 // Middleware fuction
 function makeSureEmailIsNotAlreadyRegistered(req, res, next) {
   let newEmail = req.body.email;
-  fs.readFile('users.json', (err, data) => {
-    let users = JSON.parse(data);
 
-    let found = users.find((acc) => acc.email == newEmail);
-    if (found) return res.json('This email is already registered!');
-    else return next();
-  });
+  req.app.locals.db
+    .collection('Users')
+    .find()
+    .toArray()
+    .then((users) => {
+      let found = users.find((acc) => acc.email == newEmail);
+      if (found) return res.json('This email is already registered!');
+      else return next();
+    });
 }
 
 // Middleware fuction
 function makeSureEmailExistsInDb(req, res, next) {
   let newEmail = req.body.email;
-  fs.readFile('users.json', (err, data) => {
-    let users = JSON.parse(data);
 
-    let found = users.find((acc) => acc.email == newEmail);
-    console.log(found);
-    if (found !== undefined) return next();
-    else return res.json('No account with this email found!');
-  });
+  req.app.locals.db
+    .collection('Users')
+    .find()
+    .toArray()
+    .then((users) => {
+      let found = users.find((acc) => acc.email == newEmail);
+      console.log(found);
+      if (found !== undefined) return next();
+      else return res.json('No account with this email found!');
+    });
 }
 
 module.exports = router;
