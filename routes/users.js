@@ -8,15 +8,11 @@ var router = express.Router();
 
 router.use(cors());
 
-const navBar = `
-  <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/books">View our selection!</a></li>
-      <li><a href="/my-books">View your collection!</a></li>
-      <li><a href="/donate">Donate a book!</a></li>
-    </ul>
-  </nav>`;
+const head = `
+  <head>
+    <title>Admin - Nyhetsbrevtjänsten</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>`;
 
 /*-------------- Admin Routes --------------------*/
 /*-------- Content is rendered serverside --------*/
@@ -40,7 +36,9 @@ router.post('/', function (req, res, next) {
   if (enteredPassword !== 'admin') {
     return res.send('Wrong password');
   } else {
-    let adminHomePage = `
+    let adminHomePage =
+      head +
+      `
     <h1>Admin - Homepage</h1>
     <div class="admin-filter">
       <form action="/users/onlysubbed" method="post">
@@ -105,7 +103,9 @@ router.post('/', function (req, res, next) {
 
 // Renders only subscribed users
 router.post('/onlysubbed', function (req, res, next) {
-  let adminHomePage = `
+  let adminHomePage =
+    head +
+    `
     <h1>Admin - Homepage</h1>
     <div class="admin-filter">
       <form action="/users/onlysubbed" method="post">
