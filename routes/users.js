@@ -17,17 +17,6 @@ const head = `
 /*-------------- Admin Routes --------------------*/
 /*-------- Content is rendered serverside --------*/
 
-router.get('/', (req, res) => {
-  req.app.locals.db
-    .collection('Users')
-    .find()
-    .toArray()
-    .then((results) => {
-      console.log(results);
-    });
-  res.send('yo');
-});
-
 // Login for admin
 // Renders all users if pw is correct
 router.post('/', function (req, res, next) {
