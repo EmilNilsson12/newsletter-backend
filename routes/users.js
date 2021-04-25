@@ -35,29 +35,50 @@ const footerElement = `
 // Login for admin
 // Renders all users if pw is correct
 router.post('/', function (req, res, next) {
-  const enteredPassword = req.body.password;
+  let adminHomePage = head;
 
+  const enteredPassword = req.body.password;
   if (enteredPassword !== 'admin') {
-    return res.send('Wrong password');
-  } else {
-    let adminHomePage =
-      head +
-      headerElement +
-      `
-      <main id="settings-main">
-        <div>
-          <div class="admin-filter">
-            <form action="/users/onlysubbed" method="post">
-              <input type="submit" value="Only show subscribed users">
-            </form>
-            <form action="/users" method="post">
-              <input type="submit" value="Show all users" disabled>
-              <input type="text" value="admin" name="password" style="display: none;">
-            </form>
+    adminHomePage += `
+      <header>
+        <h1>Nice try</h1>
+      </header>
+      `;
+
+    adminHomePage += `
+      <main id="login-main">
+        <form id="admin-form" action="/users" method="POST">
+          <label for="password">WRONG PASSWORD<br /> TRY AGAIN</label>
+          <div>
+            <input type="password" id="admin-password" name="password" />
           </div>
-          <h2>Currently showing: all users</h2>
-          <ul class="overflow-YES">
-    `;
+          <div>
+            <input type="submit" value="Login" />
+          </div>
+        </form>
+      </main>
+      `;
+
+    adminHomePage += footerElement;
+    return res.send(adminHomePage);
+  } else {
+    adminHomePage += headerElement;
+    adminHomePage += `
+    <main id="settings-main">
+      <div>
+        <div class="admin-filter">
+          <form action="/users/onlysubbed" method="post">
+          <input type="submit" value="Only show subscribed users">
+          </form>
+          <form action="/users" method="post">
+          <input type="submit" value="Show all users" disabled>
+            <input type="text" value="admin" name="password" style="display: none;">
+          </form>
+          </div>
+        <h2>Currently showing: all users</h2>
+        <ul class="overflow-YES">
+        `;
+
     req.app.locals.db
       .collection('Users')
       .find()
