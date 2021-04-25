@@ -23,7 +23,10 @@ const footerElement = `
   <footer>
     <h4>Powered by</h4>
     <p>
-      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img height="15" src="/images/heroku-logo.png"></a>
+      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img width="100" src="/images/heroku-logo.png"></a>
+    </p>
+    <p>
+      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img width="100" src="/images/mongoDB_Logo.png"></a>
     </p>
   </footer>`;
 /*-------------- Admin Routes --------------------*/
