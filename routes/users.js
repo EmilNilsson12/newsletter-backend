@@ -23,10 +23,10 @@ const footerElement = `
   <footer>
     <h4>Powered by</h4>
     <p>
-      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img width="100" src="/images/heroku-logo.png"></a>
+      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img width="100" src="/images/heroku-logo_200pxh.png"></a>
     </p>
     <p>
-      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img width="100" src="/images/mongoDB_Logo.png"></a>
+      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img width="100" src="/images/mongoDB_Logo_200pxh.png"></a>
     </p>
   </footer>`;
 /*-------------- Admin Routes --------------------*/
@@ -44,7 +44,7 @@ router.post('/', function (req, res, next) {
       head +
       headerElement +
       `
-      <main>
+      <main id="settings-main">
         <div>
           <div class="admin-filter">
             <form action="/users/onlysubbed" method="post">
@@ -108,7 +108,7 @@ router.post('/onlysubbed', function (req, res, next) {
     head +
     headerElement +
     `
-    <main>
+    <main id="settings-main">
       <div>
         <div class="admin-filter">
           <form action="/users/onlysubbed" method="post">
