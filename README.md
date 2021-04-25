@@ -18,11 +18,13 @@ A user can sign up/log in here: https://emilnilsson12.github.io/newsletter-front
 
 1. Clone this repo to your local machine
 
-2. type `npm install` in the terminal to download node_modules folder
+2. Make sure `node.js` is installed
 
-3. _DON'T_ remove node_modules from .gitignore
+3. Type `npm install` in the terminal to download node_modules folder
 
-4. Use VSCode
+4. _DON'T_ remove node_modules from .gitignore
+
+5. Use VSCode
    - Use plugin: prettier
 
 ## Testing the app
