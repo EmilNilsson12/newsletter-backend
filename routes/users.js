@@ -52,6 +52,7 @@ router.post('/', function (req, res, next) {
               <input type="text" value="admin" name="password" style="display: none;">
             </form>
           </div>
+          <h2>Currently showing: all users</h2>
           <ul class="overflow-YES">
     `;
     req.app.locals.db
@@ -59,22 +60,13 @@ router.post('/', function (req, res, next) {
       .find()
       .toArray()
       .then((users) => {
-        console.log(users);
-
-        /* fs.readFile('users.json', (err, data) => {
-          if (err) {
-            console.log(err);
-            return res.send('Error connecting to db');
-          }
-          let users = JSON.parse(data); */
-
         // ONLY display info about user:
         // - email
         // - subscription-status
         let usersWithInfo = users.map((user) => {
           return (userInfo = {
             Email: user.email,
-            Subscribed: user.subscribed,
+            'Subscribed to newsletter': user.subscribed,
           });
         });
 
@@ -124,6 +116,7 @@ router.post('/onlysubbed', function (req, res, next) {
             <input type="text" value="admin" name="password" style="display: none;">
           </form>
         </div>
+        <h2>Currently showing: subscribed users</h2>
         <ul class="overflow-YES">
     `;
   req.app.locals.db
@@ -133,7 +126,6 @@ router.post('/onlysubbed', function (req, res, next) {
     .then((users) => {
       // ONLY display info about user:
       // - email
-      // - subscription-status
       let usersWithInfo = users
         .filter((user) => {
           return user.subscribed == true;
@@ -141,7 +133,6 @@ router.post('/onlysubbed', function (req, res, next) {
         .map((user) => {
           return (userInfo = {
             Email: user.email,
-            Subscribed: user.subscribed,
           });
         });
 
@@ -153,7 +144,7 @@ router.post('/onlysubbed', function (req, res, next) {
         for (const prop in user) {
           adminHomePage += `
         <div>
-          ${prop}: ${user[prop]}
+          ${user[prop]}
           </div>
           `;
         }
