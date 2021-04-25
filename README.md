@@ -8,7 +8,9 @@ This repo is the admin site for a service which lets users register their email 
 
 The admin can log in and see all registered users and their subscription-status. The admin can toggle the view between seeing all users and only seeing subscribed users.
 
-This repo is structured as a monolith-app.
+The admin-pages are structured as a monolith-app and all content is rendered serverside.
+
+The user-pages are strucutred with headless principles and all content is rendered clientside.
 
 A user can sign up/log in here: https://emilnilsson12.github.io/newsletter-frontend/
 
@@ -31,4 +33,6 @@ A user can sign up/log in here: https://emilnilsson12.github.io/newsletter-front
 
 Visit this link: https://emils-mi-newsletter.herokuapp.com
 
-Log in using the _*password: admin*_
+- Log in using the _*password: admin*_
+
+- Also try entering the **wrong** password!
