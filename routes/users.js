@@ -188,6 +188,16 @@ router.post('/onlysubbed', function (req, res, next) {
     });
 });
 
+/*-------Redirects to login page when trying to bypass admin-login ---*/
+router.get('/', function (req, res) {
+  res.redirect('../');
+});
+
+/*-------Redirects to login page when trying to bypass admin-login ---*/
+router.get('/onlysubbed', function (req, res) {
+  res.redirect('../');
+});
+
 /*-------------- Front End User Routes --------------------*/
 /*-------- Content is rendered clientside --------*/
 
