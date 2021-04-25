@@ -5,15 +5,27 @@
   </head>
 
   <body>
-    <h1>Welcome Admin</h1>
-    <form id="admin-form" action="/users" method="POST">
-      <label for="password">Enter the password</label>
-      <div>
-        <input type="password" id="admin-password" name="password" />
-      </div>
-      <div>
-        <input type="submit" value="Login" />
-      </div>
-    </form>
+    <header>
+      <h1>Welcome Admin</h1>
+    </header>
+    <main>
+      <form id="admin-form" action="/users" method="POST">
+        <label for="password">Enter the password</label>
+        <div>
+          <input type="password" id="admin-password" name="password" />
+        </div>
+        <div>
+          <input type="submit" value="Login" />
+        </div>
+      </form>
+    </main>
+    <footer>
+      <h4>Powered by</h4>
+      <p>
+        <a href="https://github.com/EmilNilsson12/newsletter-backend"
+          ><img height="15" src="./images/heroku-logo.png"
+        /></a>
+      </p>
+    </footer>
   </body>
 </html>

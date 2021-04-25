@@ -14,6 +14,18 @@ const head = `
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>`;
 
+const headerElement = `
+  <header>
+    <h1>Admin - Homepage</h1>
+  </header>`;
+
+const footerElement = `
+  <footer>
+    <h4>Powered by</h4>
+    <p>
+      <a href="https://github.com/EmilNilsson12/newsletter-backend"><img height="15" src="/images/heroku-logo.png"></a>
+    </p>
+  </footer>`;
 /*-------------- Admin Routes --------------------*/
 /*-------- Content is rendered serverside --------*/
 
@@ -27,18 +39,20 @@ router.post('/', function (req, res, next) {
   } else {
     let adminHomePage =
       head +
+      headerElement +
       `
-    <h1>Admin - Homepage</h1>
-    <div class="admin-filter">
-      <form action="/users/onlysubbed" method="post">
-        <input type="submit" value="Only show subscribed users">
-      </form>
-      <form action="/users" method="post">
-        <input type="submit" value="Show all users" disabled>
-        <input type="text" value="admin" name="password" style="display: none;">
-      </form>
-    </div>
-    <ul>
+      <main>
+        <div>
+          <div class="admin-filter">
+            <form action="/users/onlysubbed" method="post">
+              <input type="submit" value="Only show subscribed users">
+            </form>
+            <form action="/users" method="post">
+              <input type="submit" value="Show all users" disabled>
+              <input type="text" value="admin" name="password" style="display: none;">
+            </form>
+          </div>
+          <ul class="overflow-YES">
     `;
     req.app.locals.db
       .collection('Users')
@@ -78,12 +92,15 @@ router.post('/', function (req, res, next) {
           }
           adminHomePage += '</li>';
         }
-        adminHomePage += '</ul>';
+        adminHomePage += '</ul></div>';
 
         adminHomePage += `
-          <form action="/" method="get" >
-          <input type="submit" value="Log out as admin">
-          </form>`;
+            <form action="/" method="get" >
+            <input type="submit" value="Log out as admin">
+            </form>
+          </main>`;
+
+        adminHomePage += footerElement;
 
         return res.send(adminHomePage);
       });
@@ -94,18 +111,20 @@ router.post('/', function (req, res, next) {
 router.post('/onlysubbed', function (req, res, next) {
   let adminHomePage =
     head +
+    headerElement +
     `
-    <h1>Admin - Homepage</h1>
-    <div class="admin-filter">
-      <form action="/users/onlysubbed" method="post">
-        <input type="submit" value="Only show subscribed users" disabled>
-      </form>
-      <form action="/users" method="post">
-        <input type="submit" value="Show all users">
-        <input type="text" value="admin" name="password" style="display: none;">
-      </form>
-    </div>
-    <ul>
+    <main>
+      <div>
+        <div class="admin-filter">
+          <form action="/users/onlysubbed" method="post">
+            <input type="submit" value="Only show subscribed users" disabled>
+          </form>
+          <form action="/users" method="post">
+            <input type="submit" value="Show all users">
+            <input type="text" value="admin" name="password" style="display: none;">
+          </form>
+        </div>
+        <ul class="overflow-YES">
     `;
   req.app.locals.db
     .collection('Users')
@@ -140,12 +159,15 @@ router.post('/onlysubbed', function (req, res, next) {
         }
         adminHomePage += '</li>';
       }
-      adminHomePage += '</ul>';
+      adminHomePage += '</ul></div>';
 
       adminHomePage += `
-      <form action="/" method="get" >
-      <input type="submit" value="Log out as admin">
-      </form>`;
+        <form action="/" method="get" >
+        <input type="submit" value="Log out as admin">
+        </form>
+      </main>`;
+
+      adminHomePage += footerElement;
 
       res.send(adminHomePage);
     });

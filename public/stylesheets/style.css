@@ -1,8 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Roboto&family=Zen+Dots&family=Open+Sans&display=swap');
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  width: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: bisque;
 }
 
-a {
-  color: #00B7FF;
+header,
+footer {
+  box-shadow: 0 0 5px 20px #ffc4e0;
+  background-color: #c4fdff;
+}
+
+header {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+header p {
+  width: 90%;
+}
+
+h1 {
+  font-family: 'Zen Dots';
+  font-size: 40px;
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+h1,
+p {
+  text-align: center;
+}
+
+main {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  margin-left: 40%;
+}
+
+form {
+  margin-left: 10px;
+  margin-right: 50px;
+}
+
+footer {
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+  text-align: center;
+}
+
+h4 {
+  font-family: 'Zen Dots';
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.overflow-YES {
+  max-height: 500px;
+  overflow: auto;
+}
+
+li {
+  margin-bottom: 10px;
 }
